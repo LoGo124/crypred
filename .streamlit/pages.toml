@@ -1,0 +1,26 @@
+[[pages]]
+path = "pages/1-Home.py"
+name = "Home"
+icon = "🏠"
+
+[[pages]]
+path = "pages/2-Predictors.py"
+name = "Predictors"
+icon = ":books:"
+
+[[pages]]
+path = "pages/3-Brokers.py"
+name = "Brokers"
+icon = "💪"
+
+# Pages after an `is_section = true` will be indented
+[[pages]]
+path = "pages/4-Bots.py"
+name = "Bots"
+icon = "🤖"
+
+# Unless you explicitly say in_section = false`
+[[pages]]
+path = "pages/5-Watchlist.py"
+name = "Watchlist"
+icon = "👀"
