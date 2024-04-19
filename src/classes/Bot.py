@@ -1,18 +1,21 @@
 import streamlit as st
 from lumibot.strategies import Strategy
+from lumibot.traders import Trader
 
 from src.classes.Strategies import *
 from src.classes.Predictor import *
 from src.classes.Broker import *
 from src.classes.Product import *
 
-class Bot():
+class Bot(Trader):
     """docstring for Bot."""
     def __init__(self, broker: Broker, products: list[Product], assigned_cash: int, name : str = "Bot", descrption : str = "Default Bot"):
+        super(Bot, self).__init__(logfile="/home/ignuser/PWZ/Python_WZ/CryPred/crypred/logs/traders/log-01")
         self.name = name
         self.descrption = descrption
         self.broker = broker
         self.products = products
+        self.status = "__init__"
 
         if self.check_cash(assigned_cash):
             self.cash = assigned_cash
@@ -32,15 +35,19 @@ class Bot():
             with st.container(border=True):
                 st.subheader(self.name)
                 st.info(self.descrption)
+                if st.button("Start", f"Start {self.name}"):
+                    with st.container(border=True):
+                        self.start()
 
     def start(self):
         cash_for = self.cash / len(self.products)
         for product in self.products:
             pred = Mosley(product)
-            strat = SwingWithPred(pred)
+            self.add_strategy(SwingWithPred(pred))
+        self.run_all()
 
-    def stop(self):
-        pass
+    def stop_all(self):
+        super(Bot, self).stop_all()
     
     def pause(self):
         pass
@@ -74,8 +81,8 @@ class Lilith(Bot):
     def start(self):
         pass
 
-    def stop(self):
-        pass
+    def stop_all(self):
+        super(Lilith, self).stop_all()
 
     def pause(self):
         pass

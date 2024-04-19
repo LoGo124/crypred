@@ -23,6 +23,6 @@ fend = CPFrontend(__name__)
 
 watchlist:list[Product]
 #watchlist = [CryptoCurrency(cry[1]["name"],cry[1]["symbol"]) for cry in cryptoCurrencies.iterrows()]
-watchlist = [CryptoCurrency("Bitcoin", "BTC-USD"), CryptoCurrency("Ethereum", "ETH-USD")]
+watchlist = [CryptoCurrency("Bitcoin", "BTC"), CryptoCurrency("Ethereum", "ETH")]
 for product in watchlist:
     product.show_on(on_web = True, expandable=True)

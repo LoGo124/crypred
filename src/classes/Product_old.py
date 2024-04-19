@@ -10,14 +10,15 @@ class Product():
     """docstring for Product."""
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance"):
         self.name = name
-        self.assetType: str
         self.tickerSymbol = tickerSymbol
-        self.pairSymbol = tickerSymbol + "-USD"
         self.input_mode = input_mode
 
         match self.input_mode:
             case "yfinance":
-                self.ticker = yf.Ticker(self.pairSymbol)
+                self.ticker = yf.Ticker(self.tickerSymbol)
+                if 'symbol' not in self.ticker.info:
+                    return False
+
 
         self.lastUpdate = None
         self.current_price:float = 0
@@ -39,14 +40,14 @@ class Product():
     def get_hist(self, period: str = "max", interval: str = "1d", return_it: bool = False):
         match self.input_mode:
             case "yfinance":
-                #if interval == "1h":
-                #    period = "2y"
-                #elif interval == "30m":
-                #    period = "60d"
-                #elif interval == "15m":
-                #    period = "1mo"
-                #elif interval == "10m":
-                #    period = "20d"
+                if interval == "1h":
+                    period = "2y"
+                elif interval == "30m":
+                    period = "60d"
+                elif interval == "15m":
+                    period = "1mo"
+                elif interval == "10m":
+                    period = "20d"
                 self.ticker_df = self.ticker.history(period=period, interval=interval)
                 #yf.download("BTC-USD", period="1d", interval="10m")
 
@@ -55,7 +56,7 @@ class Product():
 
                 tmp_df = self.ticker_df['Close']
                 tmp_df = tmp_df.reset_index()
-                tmp_df = tmp_df.rename(columns={'Date': 'ds', 'Datetime' : 'ds', 'Close': 'y'})
+                tmp_df = tmp_df.rename(columns={'Date': 'ds', 'Close': 'y'})
                 tmp_df['ds'] = tmp_df['ds'].dt.tz_localize(None)
 
                 self.hist_df = tmp_df
@@ -70,7 +71,7 @@ class Product():
     def get_current_price(self, return_it: bool = False):
         match self.input_mode:
             case "yfinance":
-                tmp_ticker_df = self.ticker.history(period='1d', interval = '1m')
+                tmp_ticker_df = self.ticker.history(period='1d')
                 self.current_price = tmp_ticker_df["Close"].iloc[-1]
         self.lastUpdate = dt.datetime.now()
         if return_it:
@@ -102,16 +103,13 @@ class Currency(Product):
     """docstring for Currency."""
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance"):
         super(Currency, self).__init__(name, tickerSymbol, input_mode)
-        self.assetType = "forex"
 
 class Company(Product):
     """docstring for Company."""
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance"):
         super(Company, self).__init__(name, tickerSymbol, input_mode)
-        self.assetType = "stock"
         
 class CryptoCurrency(Currency):
     """docstring for CryptoCurrency."""
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance"):
         super(CryptoCurrency, self).__init__(name, tickerSymbol, input_mode)
-        self.assetType = "crypto"

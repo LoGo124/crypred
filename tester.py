@@ -13,7 +13,7 @@ bot = Lilith(broker, products, 1000)
 
 products[0].get_hist(return_it=True, interval="1h")
 pred = Mosley(products[0], interval="1h")
-strat = SwingWithPred(products[0], pred)
+strat:SwingWithPred = SwingWithPred(products[0], pred)
 
 pred.predict()
 
