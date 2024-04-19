@@ -3,16 +3,17 @@ from datetime import datetime
 import streamlit as st
 from prophet import Prophet
 
-from Product import *
+from src.classes.Product import *
 
 class Predictor():
     """docstring for Predictor."""
-    def __init__(self, product: Product, name = "Mosley", description = "", auto_mode = False):
+    def __init__(self, product: Product, name: str = "Mosley", description: str = "", show_mode: str = "web", auto_mode: bool = False):
         self.id_predictor = name + str(id(self))
         self.name = name
         self.description = description
         self.product = product
         self.product_class = str(type(product))
+        self.show_mode = show_mode.lower()
 
         self.have_model = False
         self.fits_done = 0
@@ -34,21 +35,34 @@ class Predictor():
     def fit_model(self):
         self.fits_done += 1
         
-    def predict(self, on_web: bool = False):
+    def predict(self):
         self.preds_done += 1
-        if on_web:
+        if self.show_mode == "web":
             st.subheader("Prediction")
             st.line_chart(self.pred_df)
 
-    def show_on(self, on_web: bool = False):
-        if on_web:
+    def show_on(self):
+        if self.show_mode == "web":
             with st.container(border=True):
                 st.subheader(self.name)
                 st.info(self.description)
-                
+                if st.button("Edit model"):
+                    changepoint_range = st.sidebar.number_input('changepoint_range', min_value=0.1, max_value=0.99, value=0.5, step=0.1)
+                    changepoint_prior_scale = st.sidebar.number_input('changepoint_prior_scale', min_value=0.5, max_value=5.0, value=1.0, step=0.1)
+                    if st.button("Re-Generate model"):
+                        self.gen_model()
                 if st.button("Predict", self.name):
-                    self.predict(on_web=True)
-                
+                    self.predict()
+        elif self.show_mode == "term":
+            print(f"Name: {self.name}\nDescription: {self.description}")
+            if input("Want perdict? [y/n] : ").lower() == "y":
+                self.predict()
+
+    def expand_on(self):
+        ...
+
+    def collapse_on(self):
+        ...
 
 class Mosley(Predictor):
     """docstring for Mosley.
@@ -56,16 +70,19 @@ class Mosley(Predictor):
         Upgrades:
             Intervalo autoajustado x una funcion en base al periodo de prediccion
     """
-    def __init__(self, product:Product, name = "Mosley", description = "", interval: str = "1d", period: str = "max", auto_mode = False, changepoint_prior_scale = 0.5, changepoint_range = 0.8, df = None):
+    def __init__(self, name = "Mosley", description = "", product : CryptoCurrency = None, interval: str = "1d", period: str = "max", changepoint_prior_scale = 0.5, changepoint_range = 0.8, df = None, show_mode: str = "web", auto_mode = False):
         self.changepoint_range = changepoint_range
         self.changepoint_prior_scale = changepoint_prior_scale
         self.interval = interval
         self.period = period
-        super(Mosley, self).__init__(product, name, description, auto_mode)
+        
+        if auto_mode and not product:
+            raise ValueError("Can't use auto_mode without a correct atribute product")
+        
+        super(Mosley, self).__init__(product, name, description, show_mode, auto_mode)
 
-    def gen_model(self):
-        self.model = Prophet(changepoint_prior_scale=self.changepoint_prior_scale,
-                    changepoint_range=self.changepoint_range)
+    def gen_model(self, changepoint_prior_scale: float, changepoint_range: float):
+        self.model = Prophet(changepoint_prior_scale=changepoint_prior_scale, changepoint_range=changepoint_range)
         return super(Mosley, self).gen_model()
 
     def fit_model(self, period: str, interval: str, fit_df = None):
@@ -133,5 +150,5 @@ class Mosley(Predictor):
         if return_df:
             return self.pred_df
 
-    def collapse_on_web(self):
+    def collapse_on(self):
         pass
