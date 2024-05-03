@@ -7,17 +7,17 @@ from src.classes.Bot import *
 API_KEY = "PKUNQZ82EUWK8M6TNGUG"
 SECRET_API_KEY = "aat3OlEw0oS9jwOpea2B4oFZYpTsNW3KywD29eP6"
 
-broker = Alpaca("Alpaca",API_KEY, SECRET_API_KEY)
-products = [CryptoCurrency("Bitcoin", "BTC-USD", "yfinance")]
-bot = Lilith(broker, products, 1000)
+#broker = Alpaca("Alpaca",API_KEY, SECRET_API_KEY)
+products = [CryptoCurrency("Bitcoin", "BTC")]
+#bot = Lilith(broker, products, 1000)
 
-products[0].get_hist(return_it=True, interval="1h")
-pred = Mosley(products[0], interval="1h")
-strat:SwingWithPred = SwingWithPred(products[0], pred)
-
-pred.predict()
-
-strat.on_trading_iteration()
+products[0].get_hist(interval="1h")
+#pred = Mosley(products[0], interval="1h")
+#strat:SwingWithPred = SwingWithPred(products[0], pred)
+#
+#pred.predict()
+#
+#strat.on_trading_iteration()
 #Generic imports
 #import csv
 #import requests

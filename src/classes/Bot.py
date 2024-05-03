@@ -63,7 +63,6 @@ class Lilith(Bot):
     """docstring for Lilith."""
     def __init__(self, broker : Broker, products: list[Product], assigned_cash: int, name: str = "Lilith", descrption: str = "First bot, use de recived product to swing using the yhat lower & upper parameters as triger to buy & sell"):
         super(Lilith, self).__init__(broker, products, assigned_cash, name, descrption)
-        
 
     def __str__(self) -> str:
         self.string = super(Lilith, self).__str__()
@@ -76,7 +75,6 @@ class Lilith(Bot):
     
     def show_on(self, web: bool = False):
         super().show_on(web)
-        
 
     def start(self):
         pass
@@ -91,7 +89,7 @@ class Lilith(Bot):
         pass
     
     def check_cash(self, cash: int):
-        if cash < int(self.broker.account["cash"]):
+        if cash < float(self.broker.account["cash"]):
             return True
         else:
             return False

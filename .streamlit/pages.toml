@@ -6,7 +6,7 @@ icon = "🏠"
 [[pages]]
 path = "pages/2-Predictors.py"
 name = "Predictors"
-icon = ":books:"
+icon = "📈"
 
 [[pages]]
 path = "pages/3-Brokers.py"
@@ -24,3 +24,13 @@ icon = "🤖"
 path = "pages/5-Watchlist.py"
 name = "Watchlist"
 icon = "👀"
+
+[[pages]]
+path = "pages/6-The tester zone.py"
+name = "The tester zone"
+icon = "⚙️"
+
+[[pages]]
+path = "pages/7-The Tardis.py"
+name = "The Tardis"
+icon = "⚙️"

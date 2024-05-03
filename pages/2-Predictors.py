@@ -9,6 +9,8 @@ from src.classes.Product import CryptoCurrency
 from src.classes.Predictor import Mosley
 
 fend = CPFrontend(__name__)
-predictors_list = [Mosley(CryptoCurrency("Bitcoin","BTC"), "Mosley 1","First predictor")]
-for pred in predictors_list:
-    pred.show_on(True)
+if not "predictors_list" in st.session_state:
+    st.session_state["predictors_list"] = [Mosley("Mosley","First predictor", CryptoCurrency("Bitcoin","BTC"))]
+
+for pred in st.session_state["predictors_list"]:
+    pred.show_on()

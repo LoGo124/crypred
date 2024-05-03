@@ -12,7 +12,8 @@ SECRET_API_KEY = "aat3OlEw0oS9jwOpea2B4oFZYpTsNW3KywD29eP6"
 
 fend = CPFrontend(__name__)
 
-brokers:list[Broker]
-brokers = [Alpaca("Alpaca Broker 1", API_KEY, SECRET_API_KEY)]
-for broke in brokers:
+if not "brokers_list" in st.session_state:
+    st.session_state["brokers_list"] = [Alpaca("Alpaca Broker 1", API_KEY, SECRET_API_KEY)]
+
+for broke in st.session_state["brokers_list"]:
     broke.show_on(True)

@@ -27,8 +27,8 @@ fend = CPFrontend(__name__)
 bots:list[Bot]
 #bots = [CryptoCurrency(cry[1]["name"],cry[1]["symbol"]) for cry in cryptoCurrencies.iterrows()]
 broker = Alpaca("Alpaca Broker 1", API_KEY, SECRET_API_KEY)
-predictors = [Mosley(CryptoCurrency("Bitcoin","BTC-USD"), "Mosley 1","First predictor", auto_mode=True)]
+predictors = [Mosley(CryptoCurrency("Bitcoin","BTC-USD"), "Mosley 1","First predictor")]
 
-bots = [Lilith(broker, predictors)]
+bots = [Lilith(broker, predictors, 1000)]
 for bot in bots:
     bot.show_on(web = True)

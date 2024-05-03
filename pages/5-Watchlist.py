@@ -18,11 +18,14 @@ def read() -> list:
         tmp_symbols = DataFrame(tmp_csv[1:], columns=tmp_csv[0])
     return tmp_symbols
 
-cryptoCurrencies: DataFrame = read()
+#cryptoCurrencies: DataFrame = read()
 fend = CPFrontend(__name__)
 
-watchlist:list[Product]
+#watchlist:list[Product]
 #watchlist = [CryptoCurrency(cry[1]["name"],cry[1]["symbol"]) for cry in cryptoCurrencies.iterrows()]
-watchlist = [CryptoCurrency("Bitcoin", "BTC"), CryptoCurrency("Ethereum", "ETH")]
-for product in watchlist:
-    product.show_on(on_web = True, expandable=True)
+#watchlist = [CryptoCurrency("Bitcoin", "BTC"), CryptoCurrency("Ethereum", "ETH")]
+if not "watchlist" in st.session_state:
+    st.session_state["watchlist"] = [CryptoCurrency("Bitcoin", "BTC"), CryptoCurrency("Ethereum", "ETH")]
+
+for product in st.session_state["watchlist"]:
+    product.show_on()
