@@ -43,12 +43,12 @@ class Product():
             case "yfinance":
                 best_period_for_this = {
                     "1m": "max",
-                    "2m": "60d",
-                    "5m": "60d",
-                    "15m" : "60d",
-                    "30m" : "60d",
-                    "1h" : "730d",
-                    "90m" : "60d",
+                    "2m": "1mo",
+                    "5m": "1mo",
+                    "15m" : "1mo",
+                    "30m" : "1mo",
+                    "1h" : "2y",
+                    "90m" : "1mo",
                     "1d" : "max",
                     "5d" : "max",
                     "1wk" : "max",
@@ -56,6 +56,7 @@ class Product():
                     "3mo" : "max"
                 }
                 period = best_period_for_this[interval]
+                #self.container.text(interval + period)
                 self.ticker_df = self.ticker.history(interval=interval, period = period)
                 #yf.download("BTC-USD", period="1d", interval="10m")
 
@@ -113,7 +114,7 @@ class Company(Product):
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance", show_mode: str = "web"):
         super(Company, self).__init__(name, tickerSymbol, input_mode, show_mode)
         self.assetType = "stock"
-        
+
 class CryptoCurrency(Currency):
     """docstring for CryptoCurrency."""
     def __init__(self, name: str, tickerSymbol: str, input_mode = "yfinance", show_mode: str = "web"):
