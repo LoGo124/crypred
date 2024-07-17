@@ -81,7 +81,7 @@ if __name__ == "__main__":
     prods = [CryptoCurrency(coins[coin], coin) for coin in coins]
     preds = [Mosley(product=prod, interval="1m", changepoint_prior_scale=0.5, changepoint_range=0.8, show_mode="term") for prod in prods]
     strategies = [SwingWithPred(broker=broker, max_cash=1000, product=pred.product, predictor=pred, sleeptime="1M") for pred in preds]
-    trader = Trader(strategies=strategies, logfile="/home/ignuser/PWZ/Python_WZ/CryPred/crypred/logs/traders/log_test_01.log",debug=False)
+    trader = Trader(strategies=strategies, logfile="/home/sshadminonnando/crypred/logs/traders/log_test_01.log",debug=False)
     trader._set_logger()
     trader.run_all(async_=True)
     input("\n------STOP------\n")
