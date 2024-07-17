@@ -97,7 +97,7 @@ class SwingWithPred(BotStrategy):
 
         self.data.append(self.get_last_price(asset=Asset(symbol=self.product.tickerSymbol, asset_type=self.product.assetType)))
         self.log_message(f"Position: {self.data[-1]}")
-        queryDate = datetime.now()
+        queryDate = datetime.utcnow()
         queryDate = queryDate.replace(second=0, microsecond=0) + timedelta(minutes=1)
         if self.data[-1] > self.predictor.pred_df["yhat_upper"][queryDate] and len(self.posicion) >= 1:
             quantity = self.posicion.pop()
