@@ -120,7 +120,7 @@ class Mosley(Predictor):
             st_container.prog_bar.progress(30, text="Preparing DataFrame...")
 
         self.pred_days = days_predicted
-        future = self.model.make_future_dataframe(periods=days_predicted * 24 * 60, freq = "min") #Posible mejora de Mosley
+        future = self.model.make_future_dataframe(periods=180, freq = "min") #Posible mejora de Mosley
 
         if self.show_mode == "web":
             st_container.prog_bar.progress(50, text="Predicting...")
