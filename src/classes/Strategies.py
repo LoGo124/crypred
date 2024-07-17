@@ -109,6 +109,7 @@ class SwingWithPred(BotStrategy):
                 f"Quantity: {quantity}\n" + \
                 f"Price: {self.data[-1]}\n" + \
                 "Prediction :\n" + \
+                f"  datetime: {queryDate}" + \
                 f"  yhat upper: {self.predictor.pred_df['yhat_upper'][queryDate]}" + \
                 f"  yhat lower: {self.predictor.pred_df['yhat_lower'][queryDate]}")
         elif self.data[-1] < self.predictor.pred_df["yhat_lower"][queryDate] and len(self.posicion) < self.inversionFraction:
@@ -121,6 +122,7 @@ class SwingWithPred(BotStrategy):
                 f"Quantity: {quantity}\n" + \
                 f"Price: {self.data[-1]}\n" + \
                 "Prediction :\n" + \
+                f"  datetime: {queryDate}" + \
                 f"  yhat upper: {self.predictor.pred_df['yhat_upper'][queryDate]}" + \
                 f"  yhat lower: {self.predictor.pred_df['yhat_lower'][queryDate]}")
             self.posicion.append(quantity)
@@ -130,6 +132,7 @@ class SwingWithPred(BotStrategy):
                 f"Product: {self.product.tickerSymbol}\n" + \
                 f"Price: {self.data[-1]}\n" + \
                 "Prediction :\n" + \
+                f"  datetime: {queryDate}" + \
                 f"  yhat upper: {self.predictor.pred_df['yhat_upper'][queryDate]}" + \
                 f"  yhat lower: {self.predictor.pred_df['yhat_lower'][queryDate]}")
 
