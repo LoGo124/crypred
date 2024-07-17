@@ -98,34 +98,44 @@ class Mosley(Predictor):
     def predict(self, days_predicted: int = 30, interval: str = None, return_df: bool = False, st_container = False):
         if not st_container:
             st_container = self.container
-        st_container.prog_bar = self.container.progress(0,text="Checking model...")
+        if self.show_mode == "web":
+            st_container.prog_bar = self.container.progress(0,text="Checking model...")
 
         if interval:
             self.interval = interval
 
         if not self.have_model:
-            st_container.prog_bar.progress(0, text="Generating model...")
+            if self.show_mode == "web":
+                st_container.prog_bar.progress(0, text="Generating model...")
             self.gen_model(self.changepoint_prior_scale, self.changepoint_range)
 
-        st_container.prog_bar.progress(10, text="Checking train...")
+        if self.show_mode == "web":
+            st_container.prog_bar.progress(10, text="Checking train...")
         if self.fits_done <= 0 or interval:
-            st_container.prog_bar.progress(20, text="Training model...")
+            if self.show_mode == "web":
+                st_container.prog_bar.progress(20, text="Training model...")
             self.fit_model()
 
-        st_container.prog_bar.progress(30, text="Preparing DataFrame...")
+        if self.show_mode == "web":
+            st_container.prog_bar.progress(30, text="Preparing DataFrame...")
 
         self.pred_days = days_predicted
         future = self.model.make_future_dataframe(periods=days_predicted * 24, freq = "h") #Posible mejora de Mosley
 
-        st_container.prog_bar.progress(50, text="Predicting...")
+        if self.show_mode == "web":
+            st_container.prog_bar.progress(50, text="Predicting...")
+
         predictions = self.model.predict(future)
         #predictions = predictions[predictions['ds'].dt.dayofweek < 5]
         self.pred_df = predictions[['ds','trend','yhat','yhat_lower','yhat_upper']]
         self.pred_df['y'] = self.product.hist_df['y']
         self.pred_df = self.pred_df.set_index('ds')
 
-        st_container.prog_bar.progress(80, text="Predicting...")
+        if self.show_mode == "web":
+            st_container.prog_bar.progress(80, text="Predicting...")
+
         super().predict(st_container = st_container)
+        
         if self.show_mode == "web":
             st_container.prog_bar.progress(90, text="Showing...")
             st_container.write(f"Days predicted : {self.pred_days}\nShowed days : {(self.pred_days * 10)}")
