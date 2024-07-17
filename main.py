@@ -83,6 +83,6 @@ if __name__ == "__main__":
     strategies = [SwingWithPred(broker=broker, max_cash=1000, product=pred.product, predictor=pred, sleeptime="1M") for pred in preds]
     trader = Trader(strategies=strategies, logfile="/home/sshadminonnando/crypred/logs/traders/log_test_01.log",debug=False)
     trader._set_logger()
-    trader.run_all(async_=True)
-    input("\n------STOP------\n")
+    trader.run_all()
+    #input("\n------STOP------\n")
     trader.stop_all()
