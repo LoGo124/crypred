@@ -1,5 +1,0 @@
-2024-05-03 23:22:45,240: asyncio: INFO: [SwingWithPred] Executing the initialize lifecycle method
-2024-05-03 23:22:45,360: asyncio: INFO: [SwingWithPred] [34mStrategy will check in again at: 2024-05-04 00:00:00[0m
-2024-05-03 23:26:36,534: root: INFO: Stopping all strategies for this trader
-2024-05-03 23:26:36,534: asyncio: INFO: [SwingWithPred] Executing the on_abrupt_closing event method
-2024-05-03 23:26:36,534: root: INFO: Trading finished
