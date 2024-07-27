@@ -93,6 +93,7 @@ class SwingWithPred(BotStrategy):
         self.sleeptime = "1M"
 
     def on_trading_iteration(self):
+        self.predictor.fit_model()
         self.predictor.predict(days_predicted = 1)
 
         self.data.append(self.get_last_price(asset=Asset(symbol=self.product.tickerSymbol, asset_type=self.product.assetType)))
