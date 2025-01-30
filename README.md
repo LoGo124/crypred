@@ -1,3 +1,7 @@
+# Proyecto Reiniciado en otro Repo
+El proyecto ha sido reiniciado para una mejor estructura del plan de desarrollo, el repo se llama Nando y està en privado temporalmente.
+Para colaborar en el desarrollo contactad-me.
+
 # 📦 Streamlit App Starter Kit 
 ```
 ⬆️ (Replace above with your app's name)
